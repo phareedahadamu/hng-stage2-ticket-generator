@@ -9,8 +9,17 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        navBg: "rgba(5, 37, 44, 0.40)",
+        ticketBtn: "rgba(213, 234, 0, 0.10)",
+        transparent: "transparent",
+        imageBg: "rgba(0, 0, 0, 0.20)",
+        borderColor: "rgba(36, 160, 181, 0.50)",
+        lightBorder: "rgba(36, 160, 181, 0.50)",
+      },
+      fontFamily: {
+        sans: ["var(--font-rage)"],
+        mono: ["var(--font-roboto)"],
+        serif: ["var(--font-alatsi)"],
       },
     },
   },

@@ -2,20 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    box-sizing: border-box;
   }
-}
+  body {
+    background: radial-gradient(
+        52.52% 32.71% at 50% 97.66%,
+        rgba(36, 160, 181, 0.2) 0%,
+        rgba(36, 160, 181, 0) 100%
+      ),
+      #02191d;
+    font-family: "myFont", sans-serif;
+  }
+  .ellipse1 {
+    box-shadow: 1px 1px #24a0b5;
+  }
+  .ellipse2 {
+    box-shadow: -1px 1px #24a0b5;
+  }
+  .ellipse3 {
+    box-shadow: 1px -1px #24a0b5;
+  }
+  .ellipse4 {
+    box-shadow: -1px -1px #24a0b5;
+  }
+  .ellipse5 {
+    box-shadow: 1px -1px #24a0b5, 1px 1px #24a0b5;
+  }
+  .ellipse6 {
+    box-shadow: -1px -1px #24a0b5, -1px 1px #24a0b5;
+  }
+  nav p {
+    font-size: 1.125rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding: 0.625rem;
+  }
+  .gradientBg {
+    background: radial-gradient(
+        57.42% 106.59% at 14.02% 32.06%,
+        rgba(36, 160, 181, 0.2) 0%,
+        rgba(36, 160, 181, 0) 100%
+      ),
+      rgba(10, 12, 17, 0.1);
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+    backdrop-filter: blur(7px);
+  }
+  .gradientBg2 {
+    background: rgba(3, 30, 33, 0.1);
+    backdrop-filter: blur(2px);
+  }
+  .active {
+    border-radius: 0.75rem;
+    border: 1px solid #197686;
+    background: #12464e;
+  }
+  .inactive {
+    border: 2px solid #197686;
+  }
+  input::file-selector-button {
+    background-color: #24a0b5;
+  }
+  progress[value] {
+    --color: #24a0b5; /* the progress color */
+    --background: #0e464f; /* the background color */
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    width: 100%;
+    margin: 0;
+    border-radius: 5px;
+    background: var(--background);
+  }
+  progress[value]::-webkit-progress-bar {
+    border-radius: 5px;
+    background: var(--background);
+  }
+  progress[value]::-webkit-progress-value {
+    border-radius: 5px;
+    background: var(--color);
+  }
+  progress[value]::-moz-progress-bar {
+    border-radius: 5px;
+    background: var(--color);
+  }
 }
