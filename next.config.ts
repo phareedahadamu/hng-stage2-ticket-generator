@@ -1,9 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
-  output: "export",
+  output: "standalone",
   images: {
-    domains: ["res.cloudinary.com"], // Add Cloudinary's domain here
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "res.cloudinary.com",
+        pathname: "**",
+      },
+    ],
   },
 };
 module.exports = nextConfig;

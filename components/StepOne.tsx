@@ -83,7 +83,7 @@ export default function StepOne(props: {
             setError(false);
             const type = fd.get("ticketType") as string;
             const qty = fd.get("ticketqty") as string;
-            console.log(type);
+            // console.log(type);
             const newData =
               props.data === null
                 ? {

@@ -35,7 +35,7 @@ export default function StepTwo(props: {
     }
   }
   const handleImageLoad = (e: SyntheticEvent<HTMLImageElement, Event>) => {
-    console.log(e.currentTarget);
+    // console.log(e.currentTarget);
     const width = e.currentTarget.width;
     const height = e.currentTarget.height;
     setImageDimensions({ width: width, height: height });
@@ -61,7 +61,7 @@ export default function StepTwo(props: {
         }
       );
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       const username = fd.get("name") as string;
       const email = fd.get("email") as string;
       const request = fd.get("about") as string;
@@ -97,7 +97,6 @@ export default function StepTwo(props: {
             : "Valentines Splash 2025",
         dateBooked: new Date().toString(),
       });
-      console.log(id);
       if (id) dbId.current = id;
       const currentqty = await db2.tickets
         .where("id")

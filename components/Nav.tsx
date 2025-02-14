@@ -52,9 +52,11 @@ export default function Nav() {
             <p>About</p>
           </Link>
         </div>
-        <p className="text-[#0A0C11] text-[14px] sm:text-[16px] py-[12px] px-[16px] sm:px-[24px] sm:py-[16px] rounded-[0.75rem] bg-[#FFF] border-[1px] border-ticketBtn">
-          MY TICKETS →
-        </p>
+        <Link href="/tickets">
+          <p className="text-[#0A0C11] text-[14px] sm:text-[16px] py-[12px] px-[16px] sm:px-[24px] sm:py-[16px] rounded-[0.75rem] bg-[#FFF] border-[1px] border-ticketBtn">
+            MY TICKETS →
+          </p>
+        </Link>
       </nav>
     </header>
   );
