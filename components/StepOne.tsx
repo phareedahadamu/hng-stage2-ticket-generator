@@ -20,11 +20,13 @@ export default function StepOne(props: {
   nextStep: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
+  const qtyLabel = useRef<HTMLLabelElement>(null);
   const conferenceElement = conferences[props.idx - 1];
   const [error, setError] = useState<boolean>(false);
   const [active, setActive] = useState(
     props.data !== null ? props.data.ticketType : "none"
   );
+  const [loading, setLoading] = useState<boolean>(false);
   const [allTicketQty, setAllTicketQty] = useState<number[]>([]);
   useEffect(() => {
     async function fetchData() {
@@ -55,16 +57,16 @@ export default function StepOne(props: {
           33%
         </progress>
       </div>
-      <div className="gap-[32px] flex flex-col  sm:p-[24px] sm:items-start sm:justify-between sm:self-stretch sm:border-[1px] sm:border-[#0E464F] sm:bg-[#08252B] sm-rounded-[32px]">
-        <div className="flex flex-col h-[243px] px-[16px] py-[24px] justify-between items-center self-stretch rounded-[24px] border-r-[2px] border-r-[#07373F] border-b-[2px] border-b-[#07373F] gradientBg sm:gap-[8px] sm:justify-start sm:p-[24px]">
-          <h2 className="text-[#FAFAFA] text-center font-sans text-[48px] sm:text-[62px] leading-[100%]">
+      <div className="gap-[32px] flex flex-col  sm:p-[24px] sm:items-start sm:justify-between sm:self-stretch sm:border-[1px] sm:border-[#0E464F] sm:bg-[#08252B] sm:rounded-[32px]">
+        <div className="flex flex-col h-[243px] px-[16px] pt-[24px] justify-between items-center self-stretch rounded-[24px] border-r-[2px] border-r-[#07373F] border-b-[2px] border-b-[#07373F] gradientBg gap-[8px] sm:justify-start sm:p-[24px]">
+          <h2 className="text-[#FAFAFA] text-center font-sans text-[48px] sm:text-[62px] leading-none text-nowrap">
             {conferenceElement.name}
           </h2>
-          <p className="font-mono text-[14px] sm:text-[16px] text-[#FAFAFA] text-center leading-[150%] max-w-[21.25rem] w-[100%]">
+          <p className=" description font-mono text-[14px] sm:text-[16px] text-[#FAFAFA] text-center leading-[150%] sm:max-w-[300px] sm:w-[900%]">
             {conferenceElement.description}
           </p>
-          <div className="flex flex-col sm:flex-row gap-[4px] sm:gap-[16px] items-center justify-center sm:justify-between sm:items-start font-mono text-[16px] text-[#FAFAFA] text-center leading-[150%]">
-            <p>📍{conferenceElement.location}</p>{" "}
+          <div className="flex flex-col sm:flex-row gap-[4px] sm:gap-[16px] items-center sm:justify-between sm:items-start font-mono text-[16px] text-[#FAFAFA] text-center leading-[150%] self-stretch mb-[24px]">
+            <p className="text-nowrap">📍{conferenceElement.location}</p>
             <p className="hidden sm:block">||</p>
             <p>
               {conferenceElement.date} | {conferenceElement.time}
@@ -78,9 +80,12 @@ export default function StepOne(props: {
           action={(fd) => {
             if (active === "none") {
               setError(true);
+              if (qtyLabel.current !== null) {
+                qtyLabel.current.scrollIntoView();
+              }
               return;
             }
-            setError(false);
+            setLoading(true);
             const type = fd.get("ticketType") as string;
             const qty = fd.get("ticketqty") as string;
             // console.log(type);
@@ -102,6 +107,7 @@ export default function StepOne(props: {
                     ticketType: type,
                   };
             props.updateData(newData);
+            setLoading(false);
             props.nextStep();
           }}
         >
@@ -111,19 +117,28 @@ export default function StepOne(props: {
               className={`font-mono text-[16px] ${
                 error ? "text-red-500 animate-pulse" : "text-[#FAFAFA]"
               } self-stretch leading-[150%]`}
+              ref={qtyLabel}
             >
               Select Ticket Type:*
-              <input ref={inputRef} type="hidden" name="ticketType" />
+              <input ref={inputRef} type="hidden" name="ticketType" required />
             </label>
-            <div className="flex flex-col sm:flex-row p-[16px] justify-center item-center self-stretch rounded-[1.5rem] border-[1px] border-[#07373F] bg-[#052228] gap-[16px]">
+            <div
+              aria-label="Ticket type selection"
+              role="menu"
+              className="flex flex-col sm:flex-row p-[16px] justify-center item-center self-stretch rounded-[1.5rem] border-[1px] border-[#07373F] bg-[#052228] gap-[16px]"
+            >
               <div
+                role="menuitem"
+                aria-label="Regular Access Ticket Free"
                 className={`flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
                   active === "free" ? "active" : "inactive"
                 }`}
                 onClick={() => {
+                  if (loading) return;
                   setActive("free");
                   if (inputRef.current !== null)
                     inputRef.current.value = "free";
+                  setError(false);
                 }}
               >
                 <div>
@@ -142,12 +157,16 @@ export default function StepOne(props: {
                 </div>
               </div>
               <div
+                role="menuitem"
+                aria-label="VIP Access Ticket $50"
                 className={`flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
                   active === "vip" ? "active" : "inactive"
                 }`}
                 onClick={() => {
+                  if (loading) return;
                   setActive("vip");
                   if (inputRef.current !== null) inputRef.current.value = "vip";
+                  setError(false);
                 }}
               >
                 <div>
@@ -166,13 +185,17 @@ export default function StepOne(props: {
                 </div>
               </div>
               <div
+                role="menuitem"
+                aria-label="VVIP Access Ticket $150"
                 className={`flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
                   active === "vvip" ? "active" : "inactive"
                 }`}
                 onClick={() => {
+                  if (loading) return;
                   setActive("vvip");
                   if (inputRef.current !== null)
                     inputRef.current.value = "vvip";
+                  setError(false);
                 }}
               >
                 <div>
@@ -203,6 +226,7 @@ export default function StepOne(props: {
               defaultValue={props.data === null ? 1 : props.data.quantity}
               min={1}
               name="ticketqty"
+              disabled={loading}
             />
           </label>
         </form>
@@ -216,6 +240,7 @@ export default function StepOne(props: {
           <button
             className="self-stretch px-[24px] py-[12px] text-center rounded-[8px] bg-[#24A0B5] leading-[150%] text-[#FFF] text-[16px] sm:grow"
             form="step1"
+            disabled={loading}
           >
             Next
           </button>

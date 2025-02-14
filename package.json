@@ -9,13 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "cloudinary": "^2.5.1",
     "dexie": "^4.0.11",
-    "dexie-react-hooks": "^1.1.7",
-    "formidable": "^3.5.2",
+    "html2pdf.js": "^0.10.2",
     "next": "15.1.7",
     "next-barcode": "^1.5.0",
-    "next-cloudinary": "^6.16.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

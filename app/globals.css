@@ -13,7 +13,54 @@
         rgba(36, 160, 181, 0) 100%
       ),
       #02191d;
-    font-family: "myFont", sans-serif;
+    font-family: var(--font-rage), sans-serif;
+  }
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.1);
+    }
+
+    100% {
+      transform: scale(1);
+    }
+  }
+  input:is(:-webkit-autofill, :autofill) {
+    background-color: transparent;
+  }
+  label:has(input:user-invalid:required) {
+    color: red;
+    animation: pulse 2s infinite;
+  }
+  input:focus,
+  .txtArea:focus {
+    background-color: transparent;
+    outline: none;
+    border: transparent;
+    box-shadow: 1px 1px 3px #24a0b5, -1px -1px 3px #24a0b5;
+  }
+  input[type="file"] {
+    transform: translate(-50%, 0%);
+  }
+  button:disabled {
+    opacity: 50%;
+  }
+  .description,
+  .request {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* number of lines to show */
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
+  .email {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .ellipse1 {
     box-shadow: 1px 1px #24a0b5;

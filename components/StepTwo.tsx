@@ -155,11 +155,20 @@ export default function StepTwo(props: {
           <div className="flex flex-col items-center gap-[32px] px-[24px] pt-[24px] pb-[48px] border-[#07373F] border-[1px] bg-[#052228] self-stretch rounded-[24px] sm:max-w-[556px] sm:w-[100%]">
             <label
               htmlFor="profilepic"
-              className="font-mono text-[1rem] text-[#FAFAFA] self-stretch leading-[150%] flex flex-col gap-[8px] mb-[2rem] text-start"
+              className="font-mono relative text-[1rem] text-[#FAFAFA] self-stretch leading-[150%] flex flex-col gap-[8px] mb-[2rem] text-start"
             >
               Upload Profile Photo:
+              <input
+                className="w-[240px] h-[240px] opacity-[0] absolute top-[70px] left-[50%] border-white border-[2px] z-20"
+                type="file"
+                name="profilepic"
+                onChange={handleFileChange}
+                required
+                disabled={loading}
+                accept=".png, .jpg, .jpeg, .webp, .jfif, .pjpeg, .pjp, gif, avif, apng"
+              />
             </label>
-            <div className="flex sm:self-stretch justify-center sm:bg-imageBg h-[200px]  items-center relative">
+            <div className="flex sm:self-stretch justify-center sm:bg-imageBg h-[200px]  items-center relative z-10">
               <div className="w-[240px] h-[240px] p-[24px] rounded-[32px] border-[4px] bg-[#0E464F] border-borderColor flex flex-col items-center gap-[16px] justify-center absolute top[-20px]">
                 <Image
                   src="/cloud-download.svg"
@@ -181,15 +190,6 @@ export default function StepTwo(props: {
                   />
                 )}
               </div>
-
-              <input
-                className="w-[240px] h-[240px] opacity-[0] absolute top[-20px]"
-                type="file"
-                name="profilepic"
-                onChange={handleFileChange}
-                required
-                disabled={loading}
-              />
             </div>
           </div>
           <div className="h-[4px] bg-[#07373F] self-stretch"></div>
@@ -206,12 +206,19 @@ export default function StepTwo(props: {
             />
           </label>
           <label
-            className="font-mono text-[1rem] text-[#FAFAFA] self-stretch leading-[150%] flex flex-col gap-[8px]"
+            className="font-mono text-[1rem] text-[#FAFAFA] self-stretch leading-[150%] flex flex-col gap-[8px] relative"
             htmlFor="email"
           >
             Enter your email *
+            <Image
+              className="absolute top-[45px] left-[10px]"
+              src="/email.svg"
+              alt="email icon"
+              width={24}
+              height={24}
+            />
             <input
-              className="p-[0.75rem] self-stretch rounded-[0.75rem] border-[1px] border-[#07373F] bg-transparent"
+              className="p-[0.75rem] self-stretch rounded-[0.75rem] border-[1px] border-[#07373F] bg-transparent pl-[40px]"
               type="email"
               required
               name="email"
@@ -223,7 +230,7 @@ export default function StepTwo(props: {
           >
             Special request?
             <textarea
-              className="p-[0.75rem] self-stretch rounded-[0.75rem] border-[1px] border-[#07373F] bg-transparent"
+              className="txtArea p-[0.75rem] self-stretch rounded-[0.75rem] border-[1px] border-[#07373F] bg-transparent"
               name="about"
               rows={4}
             ></textarea>
@@ -239,6 +246,7 @@ export default function StepTwo(props: {
           <button
             className="self-stretch px-[24px] py-[12px] text-center rounded-[8px] bg-[#24A0B5] leading-[150%] text-[#FFF] text-[16px] sm:grow"
             form="step2"
+            disabled={loading}
           >
             Get My Ticket
           </button>

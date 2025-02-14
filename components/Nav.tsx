@@ -6,9 +6,9 @@ import { usePathname } from "next/navigation";
 export default function Nav() {
   const pathname = usePathname();
   return (
-    <header className="flex justify-center max-w-[75rem] w-[90%]">
+    <header className="flex justify-center max-w-[75rem] w-[99%]">
       <nav className="flex justify-between items-center px-[1rem] py-[0.75rem]  w-[100%] rounded-[1.5rem] border-[1px] border-[#197686] bg-navBg backdrop-blur-[2px]">
-        <Link href="/">
+        <Link href="/" aria-label="Link to Home Page">
           <div className="flex items-center gap-[0.5rem]">
             <div className="flex px-[0.5rem] py-[0.375rem] gap-[0.625rem] items-center justify-center rounded-[0.75rem] border-[1px] border-[#0E464F] bg-[#052F35]">
               <Image
@@ -40,7 +40,9 @@ export default function Nav() {
           <Link
             href="/tickets"
             className={
-              pathname === "/tickets" ? "text-[#FFF]" : "text-[#B3B3B3]"
+              pathname.substring(0, 8) === "/tickets"
+                ? "text-[#FFF]"
+                : "text-[#B3B3B3]"
             }
           >
             <p>My Tickets</p>
