@@ -20,7 +20,7 @@ export default function Page() {
       </div>
       <Link
         href={`/events/${c.id}`}
-        className="bg-[#24A0B5] text-[#FFF] gap-[1rem] px-[15px] py-[7px] rounded-[5px] text-[16px] sm:text-[16px] self-stretch text-center"
+        className="bg-[#24A0B5] text-[#FFF] gap-[1rem] px-[15px] py-[7px] rounded-[5px] text-[16px] sm:text-[16px] text-center"
       >
         Book Now
       </Link>

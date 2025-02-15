@@ -3,31 +3,16 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { conferences } from "@/lib/conferences";
 import { db2 } from "@/db/db.model";
-interface Data {
-  name: string;
-  email: string;
-  request: string;
-  imageUrl: string;
-  quantity: number;
-  ticketType: string;
-  imageWidth: number;
-  imageHeight: number;
-}
-export default function StepOne(props: {
-  idx: number;
-  data: Data | null;
-  updateData: (newData: Data) => void;
-  nextStep: () => void;
-}) {
-  const inputRef = useRef<HTMLInputElement>(null);
+import { redirect } from "next/navigation";
+export default function StepOne(props: { idx: number }) {
   const qtyLabel = useRef<HTMLLabelElement>(null);
   const conferenceElement = conferences[props.idx - 1];
   const [error, setError] = useState<boolean>(false);
-  const [active, setActive] = useState(
-    props.data !== null ? props.data.ticketType : "none"
-  );
+  const [active, setActive] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [allTicketQty, setAllTicketQty] = useState<number[]>([]);
+  const [tQty, setTQty] = useState<string | null>(null);
+
   useEffect(() => {
     async function fetchData() {
       const currentqty = await db2.tickets
@@ -41,7 +26,21 @@ export default function StepOne(props: {
       ]);
     }
     fetchData();
+    window.localStorage.setItem("eventIdx", String(props.idx));
   }, [props.idx]);
+  useEffect(() => {
+    const savedType = window.localStorage.getItem("ticketType");
+    setActive(savedType ? savedType : "none");
+    const savedQty = window.localStorage.getItem("ticketQty");
+    setTQty(savedQty ? savedQty : "1");
+  }, []);
+  useEffect(() => {
+    if (tQty !== null) window.localStorage.setItem("ticketQty", tQty);
+  }, [tQty]);
+  useEffect(() => {
+    if (active !== null) window.localStorage.setItem("ticketType", active);
+  }, [active]);
+  // console.log(props.idx);
   return (
     <>
       <div className="flex flex-col self-stretch gap-[12px]">
@@ -65,7 +64,7 @@ export default function StepOne(props: {
           <p className=" description font-mono text-[14px] sm:text-[16px] text-[#FAFAFA] text-center leading-[150%] sm:max-w-[300px] sm:w-[900%]">
             {conferenceElement.description}
           </p>
-          <div className="flex flex-col sm:flex-row gap-[4px] sm:gap-[16px] items-center sm:justify-between sm:items-start font-mono text-[16px] text-[#FAFAFA] text-center leading-[150%] self-stretch mb-[24px]">
+          <div className="flex flex-col sm:flex-row gap-[4px] sm:gap-[16px] items-center sm:justify-center sm:items-start font-mono text-[16px] text-[#FAFAFA] text-center leading-[150%] self-stretch mb-[24px]">
             <p className="text-nowrap">📍{conferenceElement.location}</p>
             <p className="hidden sm:block">||</p>
             <p>
@@ -77,38 +76,19 @@ export default function StepOne(props: {
         <form
           className="flex flex-col justify-center align-start gap-[32px] self-stretch"
           id="step1"
-          action={(fd) => {
+          action={() => {
+            setLoading(true);
             if (active === "none") {
               setError(true);
               if (qtyLabel.current !== null) {
                 qtyLabel.current.scrollIntoView();
               }
+              setLoading(false);
               return;
             }
-            setLoading(true);
-            const type = fd.get("ticketType") as string;
-            const qty = fd.get("ticketqty") as string;
-            // console.log(type);
-            const newData =
-              props.data === null
-                ? {
-                    name: "",
-                    email: "",
-                    request: "",
-                    imageUrl: "",
-                    imageWidth: 0,
-                    imageHeight: 0,
-                    quantity: Number(qty),
-                    ticketType: type,
-                  }
-                : {
-                    ...props.data,
-                    quantity: Number(qty),
-                    ticketType: type,
-                  };
-            props.updateData(newData);
+
             setLoading(false);
-            props.nextStep();
+            redirect(`/events/confirm`);
           }}
         >
           <div className="flex flex-col gap-[8px]">
@@ -119,8 +99,7 @@ export default function StepOne(props: {
               } self-stretch leading-[150%]`}
               ref={qtyLabel}
             >
-              Select Ticket Type:*
-              <input ref={inputRef} type="hidden" name="ticketType" required />
+              Select Ticket Type:
             </label>
             <div
               aria-label="Ticket type selection"
@@ -130,14 +109,12 @@ export default function StepOne(props: {
               <div
                 role="menuitem"
                 aria-label="Regular Access Ticket Free"
-                className={`flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
+                className={`cursor-pointer flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
                   active === "free" ? "active" : "inactive"
                 }`}
                 onClick={() => {
                   if (loading) return;
                   setActive("free");
-                  if (inputRef.current !== null)
-                    inputRef.current.value = "free";
                   setError(false);
                 }}
               >
@@ -147,7 +124,7 @@ export default function StepOne(props: {
                   </p>
                 </div>
                 <div>
-                  <p className="text-[#FFF] font-mono leading-[150%] text-[16px]">
+                  <p className="text-[#FFF] font-mono leading-[150%] text-[15px] text-nowrap">
                     REGULAR ACCESS
                   </p>
                   <p className="text-[#D9D9D9] font-mono leading-[150%] text-[0.875rem]">
@@ -159,13 +136,12 @@ export default function StepOne(props: {
               <div
                 role="menuitem"
                 aria-label="VIP Access Ticket $50"
-                className={`flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
+                className={`cursor-pointer flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
                   active === "vip" ? "active" : "inactive"
                 }`}
                 onClick={() => {
                   if (loading) return;
                   setActive("vip");
-                  if (inputRef.current !== null) inputRef.current.value = "vip";
                   setError(false);
                 }}
               >
@@ -175,7 +151,7 @@ export default function StepOne(props: {
                   </p>
                 </div>
                 <div>
-                  <p className="text-[#FAFAFA] font-mono leading-[150%] text-[16px]">
+                  <p className="text-[#FAFAFA] font-mono leading-[150%] text-[15px]">
                     VIP ACCESS
                   </p>
                   <p className="text-[#D9D9D9] font-mono leading-[150%] text-[0.875rem]">
@@ -187,14 +163,12 @@ export default function StepOne(props: {
               <div
                 role="menuitem"
                 aria-label="VVIP Access Ticket $150"
-                className={`flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
+                className={`cursor-pointer flex flex-col items-start self-stretch p-[12px] h-[110px] sm:w-[158px] rounded-[12px] ${
                   active === "vvip" ? "active" : "inactive"
                 }`}
                 onClick={() => {
                   if (loading) return;
                   setActive("vvip");
-                  if (inputRef.current !== null)
-                    inputRef.current.value = "vvip";
                   setError(false);
                 }}
               >
@@ -204,7 +178,7 @@ export default function StepOne(props: {
                   </p>
                 </div>
                 <div>
-                  <p className="text-[#FAFAFA] font-mono leading-[150%] text-[16px]">
+                  <p className="text-[#FAFAFA] font-mono leading-[150%] text-[15px]">
                     VVIP ACCESS
                   </p>
                   <p className="text-[#D9D9D9] font-mono leading-[150%] text-[0.875rem]">
@@ -223,10 +197,13 @@ export default function StepOne(props: {
             <input
               className="p-[0.75rem] self-stretch rounded-[0.75rem] border-[1px] border-[#07373F] bg-transparent"
               type="number"
-              defaultValue={props.data === null ? 1 : props.data.quantity}
+              value={tQty ? Number(tQty) : 1}
               min={1}
               name="ticketqty"
               disabled={loading}
+              onChange={(e) => {
+                setTQty(String(e.currentTarget.value));
+              }}
             />
           </label>
         </form>

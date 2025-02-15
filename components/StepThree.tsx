@@ -23,7 +23,7 @@ export default function StepThree(props: { idx: number }) {
     value: "12345678901234",
     options: {
       background: "transparent",
-      height: 40,
+      height: 50,
       lineColor: "white",
       fontSize: 10,
       marginTop: 0,
@@ -76,11 +76,11 @@ export default function StepThree(props: { idx: number }) {
           <div className="absolute h-[15px] w-[15px] top-[-1px] bg-[#041E23] rounded-bl-[15px] right-[-1px] ellipse2"></div>
           <div className="absolute h-[15px] w-[15px] bottom-[-1px] bg-[#041E23] rounded-tr-[15px] left-[-1px] ellipse3"></div>
           <div className="absolute h-[15px] w-[15px] bottom-[-1px] bg-[#041E23] rounded-tl-[15px] right-[-1px] ellipse4"></div>
-          <div className="absolute h-[30px] w-[15px] bottom-[95px] bg-[#041E23] rounded-r-[15px] left-[-1px] ellipse5"></div>
-          <div className="absolute h-[30px] w-[15px] bottom-[95px] bg-[#041E23] rounded-l-[15px] right-[-1px] ellipse6"></div>
+          <div className="absolute h-[30px] w-[15px] bottom-[100px] bg-[#041E23] rounded-r-[15px] left-[-1px] ellipse5"></div>
+          <div className="absolute h-[30px] w-[15px] bottom-[100px] bg-[#041E23] rounded-l-[15px] right-[-1px] ellipse6"></div>
           <div className="p-[1.1428571429rem] flex flex-col items-center w-[16.25rem] gap-[20px] border-[#24A0B5] rounded-[1rem] border-[1px] gradientBg2 justify-between">
             <div className="flex flex-col items-center w-[10.9375rem]">
-              <h2 className="text-[#FFF] font-sans text-center text-[2.125rem] leading-[100%]">
+              <h2 className="text-[#FFF] font-sans text-center text-[2.125rem] leading-[100%] text-nowrap">
                 {data !== null ? data[0].event : "Event Name"}
               </h2>
               <div className="flex flex-col justify-center items-center p-[4px] gap-[4px]">
@@ -108,14 +108,14 @@ export default function StepThree(props: { idx: number }) {
               )}
             </div>
             <div className=" flex flex-col justify-center items-start self-stretch p-[4px] rounded-[8px] border-[#133D44] border-[1px] bg-[rgb(8,52,60)]">
-              <div className="grid grid-rows-2">
+              <div className="flex flex-col self-stretch justify-center">
                 {/* one */}
-                <div className="grid grid-cols-2 border-b-[#12464E] border-b-[1px] self-stretch">
-                  <div className="flex flex-col p-[4px] items-start justify-center border-r-[#12464E] border-r-[1px]">
+                <div className="flex border-b-[#12464E] border-b-[1px] self-stretch">
+                  <div className="basis-[50%] flex flex-col p-[4px] items-start justify-center border-r-[#12464E] border-r-[1px]">
                     <p className="font-mono text-[#a09f9f] text-[0.625rem] leading-[150%]">
                       Name
                     </p>
-                    <p className="font-mono text-[#FFF] text-[0.625rem] leading-[150%] font-[700]">
+                    <p className="basis-[50%] font-mono text-[#FFF] text-[0.625rem] leading-[150%] font-[700]">
                       {data !== null ? data[0].name : "Your name"}
                     </p>
                   </div>
@@ -129,8 +129,8 @@ export default function StepThree(props: { idx: number }) {
                   </div>
                 </div>
                 {/* two */}
-                <div className="grid grid-cols-2 border-b-[#12464E] border-b-[1px] self-stretch">
-                  <div className="flex flex-col p-[4px] items-start justify-center border-r-[#12464E] border-r-[1px]">
+                <div className="flex border-b-[#12464E] border-b-[1px] self-stretch">
+                  <div className="basis-[50%] flex flex-col p-[4px] items-start justify-center border-r-[#12464E] border-r-[1px]">
                     <p className="font-mono text-[#a09f9f] text-[0.625rem] leading-[150%]">
                       Ticket Type
                     </p>
@@ -138,7 +138,7 @@ export default function StepThree(props: { idx: number }) {
                       {data !== null ? data[0].ticketType : "Ticket type"}
                     </p>
                   </div>
-                  <div className="flex flex-col p-[4px] items-start justify-center">
+                  <div className="basis-[50%] flex flex-col p-[4px] items-start justify-center">
                     <p className="font-mono text-[#a09f9f] text-[0.625rem] leading-[150%]">
                       Ticket for
                     </p>

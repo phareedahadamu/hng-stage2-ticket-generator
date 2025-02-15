@@ -45,8 +45,10 @@
   input[type="file"] {
     transform: translate(-50%, 0%);
   }
-  button:disabled {
-    opacity: 50%;
+  button:disabled,
+  input[type="text"]:disabled,
+  input[type="email"]:disabled {
+    opacity: 20%;
   }
   .description,
   .request {

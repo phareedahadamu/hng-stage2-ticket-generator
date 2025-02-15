@@ -28,11 +28,11 @@ export const conferences = [
   },
   {
     id: 2,
-    name: "Valentines Splash 2025",
+    name: "Valentines Splash",
     description:
       "Come mingle, and have a blast at Valentine Slash 2025! Secure your spot now.",
-    location: "10 Billings way, Oregun, Ikeja, Lagos",
-    date: "February 14 2025",
+    location: "10 Billings way, Ikeja, Lagos",
+    date: "Feb 14 2025",
     time: "6:00pm",
     ticketType: [
       {
