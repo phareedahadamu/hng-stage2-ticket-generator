@@ -194,17 +194,21 @@ export default function StepOne(props: { idx: number }) {
             className="font-mono text-[1rem] text-[#FAFAFA] self-stretch leading-[150%] flex flex-col gap-[8px]"
           >
             Number of Tickets:
-            <input
-              className="p-[0.75rem] self-stretch rounded-[0.75rem] border-[1px] border-[#07373F] bg-transparent"
-              type="number"
-              value={tQty ? Number(tQty) : 1}
-              min={1}
-              name="ticketqty"
+            <select
+              name="ticketQty"
               disabled={loading}
+              value={tQty ? (tQty as string) : "1"}
               onChange={(e) => {
+                // console.log(e.currentTarget.value);
                 setTQty(String(e.currentTarget.value));
               }}
-            />
+            >
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
           </label>
         </form>
         <div className="flex flex-col sm:flex-row gap-[16px] items-start self-stretch sm:h-[48px] sm:justify-end sm:gap-[24px]">

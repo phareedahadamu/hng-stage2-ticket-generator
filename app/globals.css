@@ -28,14 +28,15 @@
       transform: scale(1);
     }
   }
-  input:is(:-webkit-autofill, :autofill) {
+  /* input:is(:-webkit-autofill, :autofill) {
     background-color: transparent;
-  }
+  } */
   label:has(input:user-invalid:required) {
     color: red;
     animation: pulse 2s infinite;
   }
   input:focus,
+  select:focus,
   .txtArea:focus {
     background-color: transparent;
     outline: none;
@@ -47,8 +48,23 @@
   }
   button:disabled,
   input[type="text"]:disabled,
-  input[type="email"]:disabled {
+  input[type="email"]:disabled,
+  select:disabled {
     opacity: 20%;
+  }
+  select {
+    width: 10rem;
+    background-color: transparent;
+    border: #07373f 1px solid;
+    padding: 12px;
+    color: white;
+    align-self: stretch;
+    border-radius: 12px;
+    width: 100%;
+  }
+
+  select > option {
+    background-color: #07373f;
   }
   .description,
   .request {
